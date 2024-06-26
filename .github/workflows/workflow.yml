@@ -1,12 +1,13 @@
-name: Lint
+name: CI
 
 on: [push, pull_request]
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     container:
       image: python:3.9
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -17,18 +18,9 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
 
-      - name: Run linter
-        run: |
-          source venv/bin/activate
-          pylint your_module_or_script.py
-
+      - name: Run unit tests with nose
         run: |
           source venv/bin/activate
           pip install nose
-          nosetests
+          nosetests -v --with-coverage
 
-
-      - name: Run linter
-        run: |
-          source venv/bin/activate
-          pylint your_module_or_script.py
